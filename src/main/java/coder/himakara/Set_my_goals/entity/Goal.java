@@ -1,5 +1,6 @@
 package coder.himakara.Set_my_goals.entity;
 
+import coder.himakara.Set_my_goals.enumeration.GoalStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,7 @@ public class Goal {
 
     private String title;
     private String description;
-    private String status;
+    private GoalStatus status;
     private LocalDate dueDate;
 
     @ManyToOne
