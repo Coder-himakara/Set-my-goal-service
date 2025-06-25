@@ -36,11 +36,11 @@ public class Employee {
     private Employee manager;
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
-    private Set<Employee> directReports = new HashSet<>();
+    private Set<Employee> directReports;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Goal> goals = new HashSet<>();
+    private Set<Goal> goals;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PerformanceReview> reviews = new HashSet<>();
+    private Set<PerformanceReview> reviews;
 }

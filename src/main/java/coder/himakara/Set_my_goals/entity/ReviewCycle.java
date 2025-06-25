@@ -26,8 +26,8 @@ public class ReviewCycle {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "reviewCycle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Goal> goals = new HashSet<>();
+    private Set<Goal> goals;
 
     @OneToMany(mappedBy = "reviewCycle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set <PerformanceReview> performanceReviews =new HashSet<>();
+    private Set <PerformanceReview> performanceReviews;
 }
