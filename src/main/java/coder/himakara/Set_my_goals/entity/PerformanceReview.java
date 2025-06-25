@@ -13,20 +13,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "goal")
-public class Goal {
+@Table(name="performance_review")
+public class PerformanceReview {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int goalId;
+    private int performanceReviewId;
 
-    private String title;
-    private String description;
-    private String status;
-    private LocalDate dueDate;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
+    private int employeeId;
+    private String reviewerComments;
+    private String employeeFeedback;
+    private int performanceRating;
+    private LocalDate reviewDate;
 
     @ManyToOne
     @JoinColumn(name = "review_cycle_id", nullable = false)
