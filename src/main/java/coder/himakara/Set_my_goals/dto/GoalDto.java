@@ -12,10 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class GoalDto {
-    private int goalId;
+    private Long goalId;
     private String title;
     private String description;
     private String status;
     private LocalDate dueDate;
-    private int employee;
+    private Integer employee;
+    private Long reviewCycle;
 }

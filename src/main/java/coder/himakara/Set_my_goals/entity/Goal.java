@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int goalId;
+    private Long goalId;
 
     private String title;
     private String description;

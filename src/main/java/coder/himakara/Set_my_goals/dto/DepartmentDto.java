@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class DepartmentDto {
-    private int departmentId;
+    private Integer departmentId;
     private String departmentName;
 }

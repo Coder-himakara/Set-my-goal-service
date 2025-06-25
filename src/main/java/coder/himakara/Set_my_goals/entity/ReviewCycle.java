@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,15 +19,15 @@ import java.util.Set;
 public class ReviewCycle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reviewCycleId;
+    private Long reviewCycleId;
 
     private String cycleName;
     private LocalDate startDate;
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "reviewCycle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Goal> goals;
+    private Set<Goal> goals = new HashSet<>();
 
     @OneToMany(mappedBy = "reviewCycle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set <PerformanceReview> performanceReviews;
+    private Set <PerformanceReview> performanceReviews =new HashSet<>();
 }

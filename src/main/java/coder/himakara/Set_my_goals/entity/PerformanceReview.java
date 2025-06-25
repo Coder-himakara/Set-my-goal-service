@@ -16,15 +16,22 @@ import java.time.LocalDate;
 @Table(name="performance_review")
 public class PerformanceReview {
     @Id
-    private int performanceReviewId;
+    private Long performanceReviewId;
 
-    private int employeeId;
-    private String reviewerComments;
-    private String employeeFeedback;
-    private int performanceRating;
-    private LocalDate reviewDate;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "review_cycle_id", nullable = false)
     private ReviewCycle reviewCycle;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "reviewer_id", nullable = false)
+    private Employee reviewer;
+
+    private Integer overallRating;
+    private String comments;
+    private LocalDate reviewDate;
+
 }
