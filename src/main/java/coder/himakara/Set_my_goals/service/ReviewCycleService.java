@@ -7,4 +7,5 @@ import java.util.List;
 public interface ReviewCycleService {
     List<ReviewCycleDto> getAll();
     ReviewCycleDto createCycle(ReviewCycleDto reviewCycleDto);
+    ReviewCycleDto ongoingCycle();
 }
