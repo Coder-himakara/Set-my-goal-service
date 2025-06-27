@@ -46,4 +46,14 @@ public class ReviewCycleController {
         );
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<StandardResponse> updateCycle(@PathVariable("id") Long id,
+                                                        @RequestBody ReviewCycleDto reviewCycleDto) {
+        ReviewCycleDto updatedCycle = reviewCycleService.updateCycle(id, reviewCycleDto);
+        return new ResponseEntity<>(
+                new StandardResponse(200,"Success",updatedCycle),
+                HttpStatus.OK
+        );
+    }
+
 }

@@ -9,4 +9,5 @@ public interface ReviewCycleService {
     ReviewCycleDto createCycle(ReviewCycleDto reviewCycleDto);
     ReviewCycleDto ongoingCycle();
     ReviewCycleDto getById(Long id);
+    ReviewCycleDto updateCycle(Long id, ReviewCycleDto reviewCycleDto);
 }

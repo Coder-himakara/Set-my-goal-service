@@ -67,5 +67,14 @@ public class ReviewCycleServiceImpl implements ReviewCycleService{
         throw new NotFoundException("No ongoing review cycle found.");
     }
 
+    @Override
+    public ReviewCycleDto updateCycle(Long id, ReviewCycleDto reviewCycleDto) {
+        if (!reviewCycleRepo.existsById(id)) {
+            throw new NotFoundException("Review cycle with ID " + id + " not found.");
+        }
+        reviewCycleDto.setReviewCycleId(id);
+        ReviewCycle updatedReviewCycle = reviewCycleRepo.save(reviewCycleMapper.toEntity(reviewCycleDto));
+        return reviewCycleMapper.toDTO(updatedReviewCycle);
+    }
 
 }
