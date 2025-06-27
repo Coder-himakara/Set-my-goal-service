@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/goals")
@@ -55,9 +56,10 @@ public class GoalController {
         );
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<StandardResponse> updateGoal(@PathVariable("id") Long id, @RequestBody GoalDto goalDto) {
-        GoalResponseDto updatedGoal = goalService.updateGoal(id, goalDto);
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<StandardResponse> updateGoal(@PathVariable("id") Long id,
+                                                       @RequestBody Map<String, Object> fields) {
+        GoalResponseDto updatedGoal = goalService.updateGoal(id, fields);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Goal updated successfully", updatedGoal),
                 HttpStatus.OK

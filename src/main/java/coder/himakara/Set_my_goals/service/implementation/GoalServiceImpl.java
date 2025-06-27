@@ -12,10 +12,13 @@ import coder.himakara.Set_my_goals.service.ReviewCycleService;
 import coder.himakara.Set_my_goals.util.exception.ModificationNotAllowedException;
 import coder.himakara.Set_my_goals.util.exception.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GoalServiceImpl implements GoalService {
@@ -67,6 +70,9 @@ public class GoalServiceImpl implements GoalService {
 
     /**
      * Validates if a goal can be modified (update or delete)
+     * @throws NotFoundException If no goal exists with the given ID
+     * @throws ModificationNotAllowedException If the goal's status is not PENDING
+     * @throws ModificationNotAllowedException If the goal was created more than 7 days ago
      */
     private Goal validateGoalForModification(Long id) {
         Goal goal = goalRepo.findById(id)
@@ -92,12 +98,35 @@ public class GoalServiceImpl implements GoalService {
         goalRepo.delete(goal);
     }
 
+    /**
+     * Updates specific fields of a goal identified by the given ID.
+     * Only title, description, and dueDate fields can be modified.
+     * @param fields A map containing field names as keys and new values
+     */
     @Override
-    public GoalResponseDto updateGoal(Long id, GoalDto goalDto) {
+    public GoalResponseDto updateGoal(Long id, Map<String, Object> fields) {
         Goal existingGoal = validateGoalForModification(id);
-        existingGoal.setTitle(goalDto.getTitle());
-        existingGoal.setDescription(goalDto.getDescription());
-        existingGoal.setDueDate(goalDto.getDueDate());
+        List<String> allowedFields = List.of("title", "description", "dueDate");
+
+        fields.forEach((key, value) -> {
+            if (!allowedFields.contains(key)) {
+                return;
+            }
+            Field field = ReflectionUtils.findField(Goal.class, key);
+            if (field != null) {
+                field.setAccessible(true);
+                try {
+                    // Handle date conversion if needed
+                    Object convertedValue = value;
+                    if (key.equals("dueDate") && value instanceof String) {
+                        convertedValue = LocalDate.parse((String) value);
+                    }
+                    ReflectionUtils.setField(field, existingGoal, convertedValue);
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException("Invalid value for field: " + key, e);
+                }
+            }
+        });
         return goalMapper.toResponseDto(goalRepo.save(existingGoal));
     }
 }
