@@ -1,6 +1,7 @@
 package coder.himakara.Set_my_goals.advisor;
 
 import coder.himakara.Set_my_goals.util.ErrorResponse;
+import coder.himakara.Set_my_goals.util.exception.DeletionNotAllowedException;
 import coder.himakara.Set_my_goals.util.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,13 @@ public class AppWideExceptionHandler {
                 new ErrorResponse(404, "Resource Not Found", e.getMessage()),
                 HttpStatus.NOT_FOUND
         );
+    }
+    @ExceptionHandler(DeletionNotAllowedException.class)
+    public ResponseEntity<ErrorResponse> handleDeletionNotAllowed(DeletionNotAllowedException e) {
+        return new ResponseEntity<>
+                (
+                new ErrorResponse(403, "Deletion Not Allowed", e.getMessage()),
+                HttpStatus.BAD_REQUEST
+                );
     }
 }

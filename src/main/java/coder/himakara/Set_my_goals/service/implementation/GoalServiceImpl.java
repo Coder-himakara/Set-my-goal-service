@@ -9,9 +9,12 @@ import coder.himakara.Set_my_goals.mapper.GoalMapper;
 import coder.himakara.Set_my_goals.repository.GoalRepo;
 import coder.himakara.Set_my_goals.service.GoalService;
 import coder.himakara.Set_my_goals.service.ReviewCycleService;
+import coder.himakara.Set_my_goals.util.exception.DeletionNotAllowedException;
 import coder.himakara.Set_my_goals.util.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -54,11 +57,29 @@ public class GoalServiceImpl implements GoalService {
         try {
             Goal goal = goalMapper.toEntity(goalDto);
             goal.setStatus(GoalStatus.PENDING);
-            goal.setCreatedDate(java.time.LocalDate.now());
+            goal.setCreatedDate(LocalDate.now());
             goal.setReviewCycle(ongoingCycle.getReviewCycleId());
             return goalMapper.toResponseDto(goalRepo.save(goal));
         } catch (Exception e) {
             throw new RuntimeException("Failed to create goal: " + e.getMessage(), e);
         }
+    }
+
+    public void deleteGoal(Long id) {
+        Goal goal = goalRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("Goal with ID " + id + " not found."));
+
+        if (!GoalStatus.PENDING.equals(goal.getStatus())) {
+            throw new DeletionNotAllowedException("Cannot delete goal. Only goals with PENDING status can be deleted.");
+        }
+        LocalDate createdDate = goal.getCreatedDate();
+        LocalDate currentDate = LocalDate.now();
+        long daysDifference = ChronoUnit.DAYS.between(createdDate, currentDate);
+        long validityPeriod = 7; // days
+
+        if (daysDifference > validityPeriod) {
+            throw new DeletionNotAllowedException("Cannot delete goal. Goals can only be deleted within 7 days of creation.");
+        }
+        goalRepo.delete(goal);
     }
 }

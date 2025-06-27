@@ -46,4 +46,12 @@ public class GoalController {
         );
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<StandardResponse> deleteGoal(@PathVariable("id") Long id) {
+        goalService.deleteGoal(id);
+        return new ResponseEntity<>(
+                new StandardResponse(200, "Goal deleted successfully", null),
+                HttpStatus.OK
+        );
+    }
 }
