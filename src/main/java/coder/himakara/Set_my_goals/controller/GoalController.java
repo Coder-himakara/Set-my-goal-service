@@ -1,6 +1,7 @@
 package coder.himakara.Set_my_goals.controller;
 
 import coder.himakara.Set_my_goals.dto.GoalDto;
+import coder.himakara.Set_my_goals.dto.response.GoalResponseDto;
 import coder.himakara.Set_my_goals.service.GoalService;
 import coder.himakara.Set_my_goals.util.StandardResponse;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class GoalController {
 
     @PostMapping("/add")
     public ResponseEntity<StandardResponse> createGoal(@RequestBody GoalDto goalDto) {
-        GoalDto createdGoal = goalService.createGoal(goalDto);
+        GoalResponseDto createdGoal = goalService.createGoal(goalDto);
         return new ResponseEntity<>(
                 new StandardResponse(201, "Success", createdGoal),
                 HttpStatus.CREATED
@@ -29,7 +30,7 @@ public class GoalController {
 
     @GetMapping("/all")
     public ResponseEntity<StandardResponse> getAllGoals() {
-        List<GoalDto> goals = goalService.getAllGoals();
+        List<GoalResponseDto> goals = goalService.getAllGoals();
         return new ResponseEntity<>(
                 new StandardResponse(200, "Success", goals),
                 HttpStatus.OK
@@ -38,7 +39,7 @@ public class GoalController {
 
     @GetMapping("/{id}")
     public ResponseEntity<StandardResponse> getGoalById(@PathVariable("id") Long id) {
-        GoalDto selectedGoal = goalService.getGoalById(id);
+        GoalResponseDto selectedGoal = goalService.getGoalById(id);
         return new ResponseEntity<>(
                 new StandardResponse(200, "Success", selectedGoal),
                 HttpStatus.OK
