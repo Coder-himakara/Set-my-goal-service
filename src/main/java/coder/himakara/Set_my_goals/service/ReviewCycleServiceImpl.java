@@ -37,35 +37,51 @@ public class ReviewCycleServiceImpl implements ReviewCycleService{
         return reviewCycleMapper.toDTO(reviewCycle);
     }
 
-    @Override
-    public ReviewCycleDto createCycle(ReviewCycleDto reviewCycleDto) {
-        try {
-            ReviewCycleDto ongoingCycle = ongoingCycle();
-            throw new IllegalStateException("Cannot create a new review cycle " +
-                    "while another one is ongoing. Current cycle ends on " + ongoingCycle.getEndDate());
-        } catch (NotFoundException e) {
-            ReviewCycle savedReviewCycle = reviewCycleRepo.save(reviewCycleMapper.toEntity(reviewCycleDto));
-            return reviewCycleMapper.toDTO(savedReviewCycle);
+
+    /**
+     * Checks if there is an ongoing review cycle
+     * @return true if an ongoing cycle exists, false otherwise
+     */
+    private boolean hasOngoingCycle() {
+        List<ReviewCycle> existingCycles = reviewCycleRepo.findAll();
+        if (existingCycles.isEmpty()) {
+            return false;
         }
+        LocalDate currentDate = LocalDate.now();
+        return existingCycles.stream()
+                .anyMatch(cycle ->
+                        (currentDate.isEqual(cycle.getStartDate()) || currentDate.isAfter(cycle.getStartDate())) &&
+                                (currentDate.isEqual(cycle.getEndDate()) || currentDate.isBefore(cycle.getEndDate())));
     }
 
+    /**
+     * Returns the current ongoing review cycle if one exists
+     * @return the ongoing review cycle
+     * @throws NotFoundException if no ongoing cycle exists
+     */
     @Override
     public ReviewCycleDto ongoingCycle() {
-        List<ReviewCycle> existingCycles = reviewCycleRepo.findAll();
-        if (!existingCycles.isEmpty()) {
-            // Get the most recent cycle
-            ReviewCycle latestCycle = existingCycles.stream()
-                    .max(Comparator.comparing(ReviewCycle::getEndDate))
-                    .orElseThrow(() -> new RuntimeException("Error retrieving latest review cycle"));
+        LocalDate currentDate = LocalDate.now();
 
-            LocalDate currentDate = LocalDate.now();
-            // Check if current date is less than or equal to the end date of the most recent cycle
-            if (currentDate.isBefore(latestCycle.getEndDate()) || currentDate.isEqual(latestCycle.getEndDate())) {
-                return reviewCycleMapper.toDTO(latestCycle);
-            }
-        }
-        throw new NotFoundException("No ongoing review cycle found.");
+        return reviewCycleRepo.findAll().stream()
+                .filter(cycle ->
+                        (currentDate.isEqual(cycle.getStartDate()) || currentDate.isAfter(cycle.getStartDate())) &&
+                                (currentDate.isEqual(cycle.getEndDate()) || currentDate.isBefore(cycle.getEndDate())))
+                .max(Comparator.comparing(ReviewCycle::getEndDate))
+                .map(reviewCycleMapper::toDTO)
+                .orElseThrow(() -> new NotFoundException("No ongoing review cycle found."));
     }
+
+    @Override
+    public ReviewCycleDto createCycle(ReviewCycleDto reviewCycleDto) {
+        if (hasOngoingCycle()) {
+            throw new IllegalStateException("Cannot create a new review cycle while another one is ongoing.");
+        }
+
+        ReviewCycle savedReviewCycle = reviewCycleRepo.save(reviewCycleMapper.toEntity(reviewCycleDto));
+        return reviewCycleMapper.toDTO(savedReviewCycle);
+    }
+
 
     @Override
     public ReviewCycleDto updateCycle(Long id, ReviewCycleDto reviewCycleDto) {
