@@ -40,11 +40,18 @@ public class AppWideExceptionHandler {
         );
     }
     @ExceptionHandler(ModificationNotAllowedException.class)
-    public ResponseEntity<ErrorResponse> handleDeletionNotAllowed(ModificationNotAllowedException e) {
+    public ResponseEntity<ErrorResponse> handleModificationNotAllowed(ModificationNotAllowedException e) {
         return new ResponseEntity<>
                 (
-                new ErrorResponse(403, "Deletion Not Allowed", e.getMessage()),
+                new ErrorResponse(403, "Modification Not Allowed", e.getMessage()),
                 HttpStatus.BAD_REQUEST
                 );
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>(
+                new ErrorResponse(400, "Bad Request", e.getMessage()),
+                HttpStatus.BAD_REQUEST
+        );
     }
 }

@@ -16,6 +16,7 @@ public interface GoalMapper {
     @Mapping(target = "goalId" , ignore = true)
     @Mapping(target = "reviewCycle" , ignore = true)
     @Mapping(target = "createdDate" , ignore = true)
+    @Mapping(target = "comments" , ignore = true)
     @Mapping(target = "status" , ignore = true)
     @Mapping(target = "employee", source = "employee", qualifiedByName = "mapEmployee")
     Goal toEntity(GoalDto goalDto);

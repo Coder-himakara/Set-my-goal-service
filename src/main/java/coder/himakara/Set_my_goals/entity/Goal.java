@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -33,6 +34,9 @@ public class Goal {
     @ManyToOne
     @JoinColumn(name = "review_cycle_id", nullable = false)
     private ReviewCycle reviewCycle;
+
+    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GoalComment> comments;
 
     public void setReviewCycle(Long reviewCycleId) {
         if (this.reviewCycle == null) {
