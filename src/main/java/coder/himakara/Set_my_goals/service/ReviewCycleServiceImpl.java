@@ -30,6 +30,12 @@ public class ReviewCycleServiceImpl implements ReviewCycleService{
                 throw new NotFoundException("There are no review cycles available.");
         }
     }
+    @Override
+    public ReviewCycleDto getById(Long id){
+        ReviewCycle reviewCycle = reviewCycleRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("Review cycle with ID " + id + " not found."));
+        return reviewCycleMapper.toDTO(reviewCycle);
+    }
 
     @Override
     public ReviewCycleDto createCycle(ReviewCycleDto reviewCycleDto) {
@@ -60,4 +66,6 @@ public class ReviewCycleServiceImpl implements ReviewCycleService{
         }
         throw new NotFoundException("No ongoing review cycle found.");
     }
+
+
 }

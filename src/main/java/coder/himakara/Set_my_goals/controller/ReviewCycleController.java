@@ -29,10 +29,19 @@ public class ReviewCycleController {
     }
 
     @GetMapping("/all")
-    public  ResponseEntity<StandardResponse> getAll() {
+    public  ResponseEntity<StandardResponse> getAllCycles() {
         List<ReviewCycleDto> reviewCycles = reviewCycleService.getAll();
         return new ResponseEntity<>(
                 new StandardResponse(200,"Success",reviewCycles),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StandardResponse> getCycleById(@PathVariable("id") Long id) {
+        ReviewCycleDto selectedCycle = reviewCycleService.getById(id);
+        return new ResponseEntity<>(
+                new StandardResponse(200,"Success",selectedCycle),
                 HttpStatus.OK
         );
     }
