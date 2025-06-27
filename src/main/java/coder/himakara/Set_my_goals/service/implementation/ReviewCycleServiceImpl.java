@@ -1,10 +1,11 @@
-package coder.himakara.Set_my_goals.service;
+package coder.himakara.Set_my_goals.service.implementation;
 
 import coder.himakara.Set_my_goals.dto.ReviewCycleDto;
 import coder.himakara.Set_my_goals.entity.ReviewCycle;
 import coder.himakara.Set_my_goals.mapper.ReviewCycleMapper;
 import coder.himakara.Set_my_goals.repository.ReviewCycleRepo;
-import coder.himakara.Set_my_goals.util.NotFoundException;
+import coder.himakara.Set_my_goals.service.ReviewCycleService;
+import coder.himakara.Set_my_goals.util.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class ReviewCycleServiceImpl implements ReviewCycleService{
+public class ReviewCycleServiceImpl implements ReviewCycleService {
     private final ReviewCycleRepo reviewCycleRepo;
     private final ReviewCycleMapper reviewCycleMapper;
 

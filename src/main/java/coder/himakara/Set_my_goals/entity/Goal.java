@@ -33,4 +33,11 @@ public class Goal {
     @ManyToOne
     @JoinColumn(name = "review_cycle_id", nullable = false)
     private ReviewCycle reviewCycle;
+
+    public void setReviewCycle(Long reviewCycleId) {
+        if (this.reviewCycle == null) {
+            this.reviewCycle = new ReviewCycle();
+        }
+        this.reviewCycle.setReviewCycleId(reviewCycleId);
+    }
 }

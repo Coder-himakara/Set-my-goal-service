@@ -1,7 +1,7 @@
 package coder.himakara.Set_my_goals.advisor;
 
 import coder.himakara.Set_my_goals.util.ErrorResponse;
-import coder.himakara.Set_my_goals.util.NotFoundException;
+import coder.himakara.Set_my_goals.util.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
