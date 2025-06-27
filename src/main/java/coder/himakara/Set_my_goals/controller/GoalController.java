@@ -54,4 +54,13 @@ public class GoalController {
                 HttpStatus.OK
         );
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<StandardResponse> updateGoal(@PathVariable("id") Long id, @RequestBody GoalDto goalDto) {
+        GoalResponseDto updatedGoal = goalService.updateGoal(id, goalDto);
+        return new ResponseEntity<>(
+                new StandardResponse(200, "Goal updated successfully", updatedGoal),
+                HttpStatus.OK
+        );
+    }
 }

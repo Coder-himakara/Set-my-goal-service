@@ -9,7 +9,7 @@ import coder.himakara.Set_my_goals.mapper.GoalMapper;
 import coder.himakara.Set_my_goals.repository.GoalRepo;
 import coder.himakara.Set_my_goals.service.GoalService;
 import coder.himakara.Set_my_goals.service.ReviewCycleService;
-import coder.himakara.Set_my_goals.util.exception.DeletionNotAllowedException;
+import coder.himakara.Set_my_goals.util.exception.ModificationNotAllowedException;
 import coder.himakara.Set_my_goals.util.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -65,12 +65,15 @@ public class GoalServiceImpl implements GoalService {
         }
     }
 
-    public void deleteGoal(Long id) {
+    /**
+     * Validates if a goal can be modified (update or delete)
+     */
+    private Goal validateGoalForModification(Long id) {
         Goal goal = goalRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Goal with ID " + id + " not found."));
 
         if (!GoalStatus.PENDING.equals(goal.getStatus())) {
-            throw new DeletionNotAllowedException("Cannot delete goal. Only goals with PENDING status can be deleted.");
+            throw new ModificationNotAllowedException("Cannot modify goal. Only goals with PENDING status can be modified.");
         }
         LocalDate createdDate = goal.getCreatedDate();
         LocalDate currentDate = LocalDate.now();
@@ -78,8 +81,23 @@ public class GoalServiceImpl implements GoalService {
         long validityPeriod = 7; // days
 
         if (daysDifference > validityPeriod) {
-            throw new DeletionNotAllowedException("Cannot delete goal. Goals can only be deleted within 7 days of creation.");
+            throw new ModificationNotAllowedException("Cannot modify goal. Goals can only be modified within 7 days of creation.");
         }
+        return goal;
+    }
+
+    @Override
+    public void deleteGoal(Long id) {
+        Goal goal = validateGoalForModification(id);
         goalRepo.delete(goal);
+    }
+
+    @Override
+    public GoalResponseDto updateGoal(Long id, GoalDto goalDto) {
+        Goal existingGoal = validateGoalForModification(id);
+        existingGoal.setTitle(goalDto.getTitle());
+        existingGoal.setDescription(goalDto.getDescription());
+        existingGoal.setDueDate(goalDto.getDueDate());
+        return goalMapper.toResponseDto(goalRepo.save(existingGoal));
     }
 }
