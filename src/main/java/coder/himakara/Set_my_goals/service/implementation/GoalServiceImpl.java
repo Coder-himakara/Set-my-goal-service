@@ -57,6 +57,11 @@ public class GoalServiceImpl implements GoalService {
             throw new NotFoundException("No ongoing review cycle found. Please wait until a review cycle starts.");
         }
 
+        if (goalDto.getDueDate() != null && goalDto.getDueDate().isAfter(ongoingCycle.getEndDate())) {
+            throw new IllegalArgumentException("Goal due date must be before the end of the current review cycle: " +
+                    ongoingCycle.getEndDate());
+        }
+
         try {
             Goal goal = goalMapper.toEntity(goalDto);
             goal.setStatus(GoalStatus.PENDING);
