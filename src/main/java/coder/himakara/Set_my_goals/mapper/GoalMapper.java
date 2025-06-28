@@ -24,6 +24,7 @@ public interface GoalMapper {
 
     @Mapping(target = "employee", source = "employee.employeeId")
     @Mapping(target = "reviewCycle", source = "reviewCycle.reviewCycleId")
+    @Mapping(target = "comments", source = "comments")
     GoalResponseDto toResponseDto(Goal goal);
 
     List<GoalResponseDto> toResponseDtoList(List<Goal> goals);

@@ -35,7 +35,7 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public GoalResponseDto getGoalById(Long id) {
-        Goal goal = goalRepo.findById(id)
+        Goal goal = goalRepo.findByIdWithComments(id)
                 .orElseThrow(() -> new NotFoundException("Goal with ID " + id + " not found."));
         return goalMapper.toResponseDto(goal);
     }

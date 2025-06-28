@@ -1,5 +1,6 @@
 package coder.himakara.Set_my_goals.dto.response;
 
+import coder.himakara.Set_my_goals.dto.GoalCommentDto;
 import coder.himakara.Set_my_goals.enumeration.GoalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +23,5 @@ public class GoalResponseDto {
     private LocalDate dueDate;
     private Integer employee;
     private Long reviewCycle;
+    private List<GoalCommentDto> comments;
 }
