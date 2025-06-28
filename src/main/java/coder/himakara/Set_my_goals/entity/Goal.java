@@ -35,7 +35,7 @@ public class Goal {
     @JoinColumn(name = "review_cycle_id", nullable = false)
     private ReviewCycle reviewCycle;
 
-    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<GoalComment> comments;
 
     public void setReviewCycle(Long reviewCycleId) {

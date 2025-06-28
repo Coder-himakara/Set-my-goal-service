@@ -33,6 +33,12 @@ public class GoalServiceImpl implements GoalService {
         this.reviewCycleService = reviewCycleService;
     }
 
+    /**
+     * Retrieves a goal by its unique identifier.
+     * This method fetches the goal along with its associated comments.
+     *
+     * @return A {@link GoalResponseDto} containing the goal data and its comments
+     */
     @Override
     public GoalResponseDto getGoalById(Long id) {
         Goal goal = goalRepo.findByIdWithComments(id)
@@ -42,9 +48,9 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public List<GoalResponseDto> getAllGoals() {
-        List<Goal> goal = goalRepo.findAll();
-        if (!goal.isEmpty()) {
-            return goalMapper.toResponseDtoList(goal);
+        List<Goal> goals = goalRepo.findAllWithoutComments();
+        if (!goals.isEmpty()) {
+            return goalMapper.toResponseDtoListWithoutComments(goals);
         } else {
             throw new NotFoundException("There are no goals available.");
         }

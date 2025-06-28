@@ -13,21 +13,38 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface GoalMapper {
-    @Mapping(target = "goalId" , ignore = true)
-    @Mapping(target = "reviewCycle" , ignore = true)
-    @Mapping(target = "createdDate" , ignore = true)
-    @Mapping(target = "comments" , ignore = true)
-    @Mapping(target = "status" , ignore = true)
+    @Mapping(target = "goalId", ignore = true)
+    @Mapping(target = "reviewCycle", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "status", ignore = true)
     @Mapping(target = "employee", source = "employee", qualifiedByName = "mapEmployee")
     Goal toEntity(GoalDto goalDto);
 
-
+    //includes comments
     @Mapping(target = "employee", source = "employee.employeeId")
     @Mapping(target = "reviewCycle", source = "reviewCycle.reviewCycleId")
-    @Mapping(target = "comments", source = "comments")
     GoalResponseDto toResponseDto(Goal goal);
 
-    List<GoalResponseDto> toResponseDtoList(List<Goal> goals);
+    //explicitly excludes comments
+    @Mapping(target = "employee", source = "employee.employeeId")
+    @Mapping(target = "reviewCycle", source = "reviewCycle.reviewCycleId")
+    @Mapping(target = "comments", ignore = true)
+    GoalResponseDto toResponseDtoWithoutComments(Goal goal);
+
+    // Use a default method for list with comments to avoid ambiguity
+    default List<GoalResponseDto> toResponseDtoList(List<Goal> goals) {
+        return goals.stream()
+                .map(this::toResponseDto)
+                .toList();
+    }
+
+    // Maps a list of goals without comments
+    default List<GoalResponseDto> toResponseDtoListWithoutComments(List<Goal> goals) {
+        return goals.stream()
+                .map(this::toResponseDtoWithoutComments)
+                .toList();
+    }
 
     @Named("mapEmployee")
     default Employee mapEmployee(Integer employeeId) {

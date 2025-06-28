@@ -7,11 +7,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @EnableJpaRepositories
 public interface GoalRepo extends JpaRepository<Goal,Long> {
+    // For single goals with comments
     @Query("SELECT g FROM Goal g LEFT JOIN FETCH g.comments WHERE g.goalId = :id")
     Optional<Goal> findByIdWithComments(@Param("id") Long id);
+
+    // For all goals WITHOUT comments
+    @Query("SELECT g FROM Goal g")
+    List<Goal> findAllWithoutComments();
 }
