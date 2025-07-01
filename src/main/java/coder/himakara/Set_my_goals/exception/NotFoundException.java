@@ -1,4 +1,4 @@
-package coder.himakara.Set_my_goals.util;
+package coder.himakara.Set_my_goals.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,7 +1,9 @@
 package coder.himakara.Set_my_goals.advisor;
 
+import coder.himakara.Set_my_goals.exception.IllegalArgumentException;
 import coder.himakara.Set_my_goals.util.ErrorResponse;
-import coder.himakara.Set_my_goals.util.NotFoundException;
+import coder.himakara.Set_my_goals.exception.ModificationNotAllowedException;
+import coder.himakara.Set_my_goals.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,21 @@ public class AppWideExceptionHandler {
         return new ResponseEntity<>(
                 new ErrorResponse(404, "Resource Not Found", e.getMessage()),
                 HttpStatus.NOT_FOUND
+        );
+    }
+    @ExceptionHandler(ModificationNotAllowedException.class)
+    public ResponseEntity<ErrorResponse> handleModificationNotAllowed(ModificationNotAllowedException e) {
+        return new ResponseEntity<>
+                (
+                new ErrorResponse(403, "Modification Not Allowed", e.getMessage()),
+                HttpStatus.BAD_REQUEST
+                );
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>(
+                new ErrorResponse(400, "Bad Request", e.getMessage()),
+                HttpStatus.BAD_REQUEST
         );
     }
 }
