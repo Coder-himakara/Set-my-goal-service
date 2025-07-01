@@ -9,8 +9,8 @@ import coder.himakara.Set_my_goals.mapper.GoalMapper;
 import coder.himakara.Set_my_goals.repository.GoalRepo;
 import coder.himakara.Set_my_goals.service.GoalService;
 import coder.himakara.Set_my_goals.service.ReviewCycleService;
-import coder.himakara.Set_my_goals.util.exception.ModificationNotAllowedException;
-import coder.himakara.Set_my_goals.util.exception.NotFoundException;
+import coder.himakara.Set_my_goals.exception.ModificationNotAllowedException;
+import coder.himakara.Set_my_goals.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 

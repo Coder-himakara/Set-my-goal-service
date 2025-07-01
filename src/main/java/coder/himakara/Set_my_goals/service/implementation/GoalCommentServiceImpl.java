@@ -8,8 +8,8 @@ import coder.himakara.Set_my_goals.mapper.GoalCommentMapper;
 import coder.himakara.Set_my_goals.repository.GoalCommentRepo;
 import coder.himakara.Set_my_goals.repository.GoalRepo;
 import coder.himakara.Set_my_goals.service.GoalCommentService;
-import coder.himakara.Set_my_goals.util.exception.ModificationNotAllowedException;
-import coder.himakara.Set_my_goals.util.exception.NotFoundException;
+import coder.himakara.Set_my_goals.exception.ModificationNotAllowedException;
+import coder.himakara.Set_my_goals.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

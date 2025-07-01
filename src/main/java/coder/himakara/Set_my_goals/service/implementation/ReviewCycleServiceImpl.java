@@ -5,7 +5,7 @@ import coder.himakara.Set_my_goals.entity.ReviewCycle;
 import coder.himakara.Set_my_goals.mapper.ReviewCycleMapper;
 import coder.himakara.Set_my_goals.repository.ReviewCycleRepo;
 import coder.himakara.Set_my_goals.service.ReviewCycleService;
-import coder.himakara.Set_my_goals.util.exception.NotFoundException;
+import coder.himakara.Set_my_goals.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
