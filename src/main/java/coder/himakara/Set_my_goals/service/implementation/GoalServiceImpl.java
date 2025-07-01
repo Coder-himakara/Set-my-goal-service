@@ -5,6 +5,7 @@ import coder.himakara.Set_my_goals.dto.ReviewCycleDto;
 import coder.himakara.Set_my_goals.dto.response.GoalResponseDto;
 import coder.himakara.Set_my_goals.entity.Goal;
 import coder.himakara.Set_my_goals.enumeration.GoalStatus;
+import coder.himakara.Set_my_goals.exception.IllegalArgumentException;
 import coder.himakara.Set_my_goals.mapper.GoalMapper;
 import coder.himakara.Set_my_goals.repository.GoalRepo;
 import coder.himakara.Set_my_goals.service.GoalService;
@@ -133,11 +134,25 @@ public class GoalServiceImpl implements GoalService {
                         convertedValue = LocalDate.parse((String) value);
                     }
                     ReflectionUtils.setField(field, existingGoal, convertedValue);
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException("Invalid value for field: " + key, e);
+                } catch (IllegalArgumentException ex) {
+                    throw new IllegalArgumentException("Invalid value for field: " + key);
                 }
             }
         });
         return goalMapper.toResponseDto(goalRepo.save(existingGoal));
+    }
+
+    @Override
+    public GoalResponseDto updateGoalStatusToProgress(Long id) {
+        Goal goal = goalRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("Goal not found with ID: " + id));
+
+        if (goal.getStatus() != GoalStatus.PENDING) {
+            throw new IllegalStateException("Goal must be in PENDING status to move to IN_PROGRESS");
+        }
+
+        goal.setStatus(GoalStatus.IN_PROGRESS);
+        Goal updatedGoal = goalRepo.save(goal);
+        return goalMapper.toResponseDto(updatedGoal);
     }
 }

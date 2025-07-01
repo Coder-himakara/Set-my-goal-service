@@ -12,4 +12,5 @@ public interface GoalService {
     GoalResponseDto createGoal(GoalDto goalDto) ;
     void deleteGoal(Long id);
     GoalResponseDto updateGoal(Long id, Map<String, Object> fields);
+    GoalResponseDto updateGoalStatusToProgress(Long id);
 }

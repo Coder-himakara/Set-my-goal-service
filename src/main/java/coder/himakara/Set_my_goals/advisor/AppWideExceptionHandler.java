@@ -1,5 +1,6 @@
 package coder.himakara.Set_my_goals.advisor;
 
+import coder.himakara.Set_my_goals.exception.IllegalArgumentException;
 import coder.himakara.Set_my_goals.util.ErrorResponse;
 import coder.himakara.Set_my_goals.exception.ModificationNotAllowedException;
 import coder.himakara.Set_my_goals.exception.NotFoundException;

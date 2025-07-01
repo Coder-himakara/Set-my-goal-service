@@ -65,4 +65,13 @@ public class GoalController {
                 HttpStatus.OK
         );
     }
+
+    @PatchMapping("/{id}/status/to-progress")
+    public ResponseEntity<StandardResponse> updateGoalStatusToProgress(@PathVariable("id") Long id) {
+        GoalResponseDto updatedGoal = goalService.updateGoalStatusToProgress(id);
+        return new ResponseEntity<>(
+                new StandardResponse(200, "Goal status updated to IN_PROGRESS", updatedGoal),
+                HttpStatus.OK
+        );
+    }
 }
