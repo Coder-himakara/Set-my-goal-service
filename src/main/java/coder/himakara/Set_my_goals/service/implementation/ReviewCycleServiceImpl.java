@@ -2,6 +2,7 @@ package coder.himakara.Set_my_goals.service.implementation;
 
 import coder.himakara.Set_my_goals.dto.ReviewCycleDto;
 import coder.himakara.Set_my_goals.entity.ReviewCycle;
+import coder.himakara.Set_my_goals.exception.OngoingCycleException;
 import coder.himakara.Set_my_goals.mapper.ReviewCycleMapper;
 import coder.himakara.Set_my_goals.repository.ReviewCycleRepo;
 import coder.himakara.Set_my_goals.service.ReviewCycleService;
@@ -76,7 +77,7 @@ public class ReviewCycleServiceImpl implements ReviewCycleService {
     @Override
     public ReviewCycleDto createCycle(ReviewCycleDto reviewCycleDto) {
         if (hasOngoingCycle()) {
-            throw new IllegalStateException("Cannot create a new review cycle while another one is ongoing.");
+            throw new OngoingCycleException("Cannot create a new review cycle while another one is ongoing.");
         }
 
         ReviewCycle savedReviewCycle = reviewCycleRepo.save(reviewCycleMapper.toEntity(reviewCycleDto));

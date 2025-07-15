@@ -5,7 +5,7 @@ import coder.himakara.Set_my_goals.dto.ReviewCycleDto;
 import coder.himakara.Set_my_goals.dto.response.GoalResponseDto;
 import coder.himakara.Set_my_goals.entity.Goal;
 import coder.himakara.Set_my_goals.enumeration.GoalStatus;
-import coder.himakara.Set_my_goals.exception.IllegalArgumentException;
+import coder.himakara.Set_my_goals.exception.Goal_IllegalArgumentException;
 import coder.himakara.Set_my_goals.mapper.GoalMapper;
 import coder.himakara.Set_my_goals.repository.GoalRepo;
 import coder.himakara.Set_my_goals.service.GoalService;
@@ -65,7 +65,7 @@ public class GoalServiceImpl implements GoalService {
         }
 
         if (goalDto.getDueDate() != null && goalDto.getDueDate().isAfter(ongoingCycle.getEndDate())) {
-            throw new IllegalArgumentException("Goal due date must be before the end of the current review cycle: " +
+            throw new Goal_IllegalArgumentException("Goal due date must be before the end of the current review cycle: " +
                     ongoingCycle.getEndDate());
         }
 
@@ -134,8 +134,8 @@ public class GoalServiceImpl implements GoalService {
                         convertedValue = LocalDate.parse((String) value);
                     }
                     ReflectionUtils.setField(field, existingGoal, convertedValue);
-                } catch (IllegalArgumentException ex) {
-                    throw new IllegalArgumentException("Invalid value for field: " + key);
+                } catch (Goal_IllegalArgumentException ex) {
+                    throw new Goal_IllegalArgumentException("Invalid value for field: " + key);
                 }
             }
         });

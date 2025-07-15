@@ -1,6 +1,7 @@
 package coder.himakara.Set_my_goals.advisor;
 
-import coder.himakara.Set_my_goals.exception.IllegalArgumentException;
+import coder.himakara.Set_my_goals.exception.Goal_IllegalArgumentException;
+import coder.himakara.Set_my_goals.exception.OngoingCycleException;
 import coder.himakara.Set_my_goals.util.ErrorResponse;
 import coder.himakara.Set_my_goals.exception.ModificationNotAllowedException;
 import coder.himakara.Set_my_goals.exception.NotFoundException;
@@ -48,11 +49,19 @@ public class AppWideExceptionHandler {
                 HttpStatus.BAD_REQUEST
                 );
     }
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+    @ExceptionHandler(Goal_IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(Goal_IllegalArgumentException e) {
         return new ResponseEntity<>(
                 new ErrorResponse(400, "Bad Request", e.getMessage()),
                 HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(OngoingCycleException.class)
+    public ResponseEntity<ErrorResponse> handleOngoingCycleException(OngoingCycleException e) {
+        return new ResponseEntity<>(
+                new ErrorResponse(409, "Bad Request", e.getMessage()),
+                HttpStatus.CONFLICT
         );
     }
 }

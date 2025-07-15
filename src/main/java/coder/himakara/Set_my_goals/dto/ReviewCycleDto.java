@@ -16,4 +16,5 @@ public class ReviewCycleDto {
     private String cycleName;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Integer createdBy;
 }
