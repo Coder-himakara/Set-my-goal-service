@@ -2,6 +2,7 @@ package coder.himakara.Set_my_goals.controller;
 
 
 import coder.himakara.Set_my_goals.dto.ReviewCycleDto;
+import coder.himakara.Set_my_goals.dto.response.ReviewCycleResponse;
 import coder.himakara.Set_my_goals.service.ReviewCycleService;
 import coder.himakara.Set_my_goals.util.StandardResponse;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/review-cycles")
+@RequestMapping("/set-goals/api/review-cycles")
 public class ReviewCycleController {
     private final ReviewCycleService reviewCycleService;
 
@@ -21,7 +22,7 @@ public class ReviewCycleController {
 
     @PostMapping("/add")
     public ResponseEntity<StandardResponse> createCycle(@RequestBody ReviewCycleDto reviewCycleDto) {
-        ReviewCycleDto createdCycle = reviewCycleService.createCycle(reviewCycleDto);
+        ReviewCycleResponse createdCycle = reviewCycleService.createCycle(reviewCycleDto);
         return new ResponseEntity<>(
                 new StandardResponse(201,"Success",createdCycle),
                 HttpStatus.CREATED
@@ -30,7 +31,7 @@ public class ReviewCycleController {
 
     @GetMapping("/all")
     public  ResponseEntity<StandardResponse> getAllCycles() {
-        List<ReviewCycleDto> reviewCycles = reviewCycleService.getAll();
+        List<ReviewCycleResponse> reviewCycles = reviewCycleService.getAll();
         return new ResponseEntity<>(
                 new StandardResponse(200,"Success",reviewCycles),
                 HttpStatus.OK
@@ -39,7 +40,7 @@ public class ReviewCycleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<StandardResponse> getCycleById(@PathVariable("id") Long id) {
-        ReviewCycleDto selectedCycle = reviewCycleService.getById(id);
+        ReviewCycleResponse selectedCycle = reviewCycleService.getById(id);
         return new ResponseEntity<>(
                 new StandardResponse(200,"Success",selectedCycle),
                 HttpStatus.OK
@@ -49,7 +50,7 @@ public class ReviewCycleController {
     @PutMapping("/update/{id}")
     public ResponseEntity<StandardResponse> updateCycle(@PathVariable("id") Long id,
                                                         @RequestBody ReviewCycleDto reviewCycleDto) {
-        ReviewCycleDto updatedCycle = reviewCycleService.updateCycle(id, reviewCycleDto);
+        ReviewCycleResponse updatedCycle = reviewCycleService.updateCycle(id, reviewCycleDto);
         return new ResponseEntity<>(
                 new StandardResponse(200,"Success",updatedCycle),
                 HttpStatus.OK

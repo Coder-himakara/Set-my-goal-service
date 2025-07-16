@@ -1,6 +1,7 @@
 package coder.himakara.Set_my_goals.mapper;
 
 import coder.himakara.Set_my_goals.dto.ReviewCycleDto;
+import coder.himakara.Set_my_goals.dto.response.ReviewCycleResponse;
 import coder.himakara.Set_my_goals.entity.ReviewCycle;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,4 +16,7 @@ public interface ReviewCycleMapper {
 
     ReviewCycleDto toDTO(ReviewCycle reviewCycle);
     List<ReviewCycleDto>  toDTOsList(List<ReviewCycle> reviewCycles);
+
+    ReviewCycleResponse toResponseDTO(ReviewCycle reviewCycle);
+    List<ReviewCycleResponse> toResponseDTOsList(List<ReviewCycle> reviewCycles);
 }
