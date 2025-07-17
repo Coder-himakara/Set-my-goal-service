@@ -23,6 +23,7 @@ public class ReviewCycle {
     private String cycleName;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Integer createdBy;
 
     @OneToMany(mappedBy = "reviewCycle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Goal> goals;

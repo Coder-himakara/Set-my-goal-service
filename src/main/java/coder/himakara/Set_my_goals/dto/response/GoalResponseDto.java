@@ -21,7 +21,7 @@ public class GoalResponseDto {
     private GoalStatus status;
     private LocalDate createdDate;
     private LocalDate dueDate;
-    private Integer employee;
+    private Integer employeeId;
     private Long reviewCycle;
     private List<GoalCommentDto> comments;
 }

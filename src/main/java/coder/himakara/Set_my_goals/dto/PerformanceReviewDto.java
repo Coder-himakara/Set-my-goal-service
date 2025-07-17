@@ -16,8 +16,8 @@ import java.time.LocalDate;
 public class PerformanceReviewDto {
     private Long performanceReviewId;
     private ReviewCycle reviewCycle;
-    private Integer employee;
-    private Integer reviewer;
+    private Integer employeeId;
+    private Integer managerId;
     private Integer overallRating;
     private String comments;
     private LocalDate reviewDate;

@@ -26,10 +26,7 @@ public class Goal {
     private GoalStatus status;
     private LocalDate createdDate;
     private LocalDate dueDate;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
+    private Integer employeeId;
 
     @ManyToOne
     @JoinColumn(name = "review_cycle_id", nullable = false)

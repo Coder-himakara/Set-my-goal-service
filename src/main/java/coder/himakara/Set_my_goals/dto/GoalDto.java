@@ -15,5 +15,5 @@ public class GoalDto {
     private String title;
     private String description;
     private LocalDate dueDate;
-    private Integer employee;
+    private Integer employeeId;
 }
